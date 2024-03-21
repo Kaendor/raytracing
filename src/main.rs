@@ -1,4 +1,7 @@
-use std::io::{Cursor, Write};
+use std::{
+    fs::File,
+    io::{Cursor, Write},
+};
 
 fn main() {
     let width = 256;
@@ -6,9 +9,9 @@ fn main() {
 
     let mut cursor = Cursor::new(Vec::new());
 
-    write!(cursor, "P3").expect("p3");
-    write!(cursor, "{width} {height}").expect("size");
-    write!(cursor, "255").expect("length");
+    writeln!(cursor, "P3\n").expect("p3");
+    writeln!(cursor, "{width} {height}\n").expect("size");
+    writeln!(cursor, "255\n").expect("length");
 
     for j in 0..height {
         for i in 0..width {
@@ -20,9 +23,10 @@ fn main() {
             let g: u8 = (g * 255.) as u8;
             let b: u8 = (b * 255.) as u8;
 
-            write!(cursor, "{r} {g} {b}").expect("color");
+            writeln!(cursor, "{r} {g} {b}").expect("color");
         }
     }
 
-    println!("{:?}", cursor.into_inner());
+    let mut file = File::create("render.ppm").expect("create file");
+    file.write(&cursor.into_inner()).expect("Write to file");
 }
