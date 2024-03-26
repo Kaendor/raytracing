@@ -3,7 +3,7 @@ use std::{
     io::{Cursor, Write},
 };
 
-use glam::Vec3;
+use glam::{U16Vec3, Vec3};
 use itertools::Itertools;
 
 use crate::ray::Ray;
@@ -24,7 +24,7 @@ fn main() {
 
     let viewport_height = 2.0;
     let viewport_width = viewport_height * image_width as f32 / image_height;
-    let camera_center = Vec3::ZERO;
+    let camera_center = Vec3::new(0., 0., 5.);
 
     // Viewport vectors
     let viewport_u = Vec3::new(viewport_width, 0., 0.);
@@ -52,9 +52,9 @@ fn main() {
         let ray_direction = pixel_center - camera_center;
         let ray = Ray::new(camera_center, ray_direction);
 
-        let u8_color = ray.color();
+        let color = ray.color();
 
-        writeln!(cursor, "{} {} {}", u8_color.x, u8_color.y, u8_color.z).expect("color");
+        writeln!(cursor, "{} {} {}", color.x, color.y, color.z).expect("color");
     }
 
     println!("Done");
