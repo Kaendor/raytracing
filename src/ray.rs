@@ -11,10 +11,6 @@ impl Ray {
         Self { origin, direction }
     }
 
-    pub fn at(&self, delta: f32) -> Vec3 {
-        self.origin + delta * self.direction
-    }
-
     pub fn color(&self) -> U16Vec3 {
         let distance = shortestDistanceToSurface(self.origin, self.direction, 0., 100.);
 
